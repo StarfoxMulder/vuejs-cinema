@@ -7,6 +7,7 @@ const fs = require('fs');
 const api = require('./api');
 
 if (process.env.NODE_ENV === 'development') {
+  // Listener for changes to our files, rebuilds webpack automatically
   require('./webpack-dev-middleware').init(app);
 }
 
