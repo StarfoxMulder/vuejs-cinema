@@ -8,6 +8,11 @@
         <h2>{{ movie.Title }}</h2>
         <span class="movie-rating">{{ movie.Rated }}</span>
       </div>
+      <div class="movie-sessions">
+        <div v-for="session in filteredSessions(sessions)" class="session-time-wrapper">
+          <div class="session-time"> {{ formatSessionTime(session.time) }} </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -20,7 +25,17 @@
   // but now that the bind is movie.movie, we only need to reference 
   // the alias of movie which is bound to each iteration of MovieItem
   // within it's parent MovieList
-    props: ['movie']
+    props: ['movie', 'sessions', 'day'],
+    methods: {
+      formatSessionTime(raw) {
+        return this.$moment(raw).format('h:mm A');
+      },
+      filteredSessions(sessions) {
+        return sessions.filter(session => {
+          return this.$moment(session.time).isSame(this.day, 'day')
+        })
+      }
+    }
 
   }
 </script>
